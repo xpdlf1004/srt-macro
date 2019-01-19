@@ -10,7 +10,7 @@ var cors = require("cors");
 var app = express();
 
 app.use(morgan("tiny"));
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,7 +23,8 @@ app.use(
   session({
     secret: "keyboard cat",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { httpOnly: false }
   })
 );
 
@@ -53,6 +54,7 @@ app.post("/login", function(req, res) {
             .split(";")[0]
             .split("JSESSIONID_ETK=")[1];
           req.session.JSESSIONID_ETK = sessionKey;
+          req.session.expires = false;
         }
         res.status(200).send("success");
       } else {
