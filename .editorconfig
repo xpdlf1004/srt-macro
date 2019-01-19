@@ -1,0 +1,19 @@
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+
+[*.ts]
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.tsx]
+indent_style = space
+indent_size = 2
+
+# npm inserts a final newline.
+[package.json]
+trim_trailing_whitespace = false

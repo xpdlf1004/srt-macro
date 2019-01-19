@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "fmt": "tslint -p . --fix && prettier '{src, scripts}/**/*.{ts,js,json,vue}' --write"
   },
   "dependencies": {
     "vue": "^2.5.21",
@@ -28,6 +29,7 @@
     "chai": "^4.1.2",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
+    "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.21"
   }
