@@ -1,18 +1,35 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <b-container>
+      <div class="section">
+        <ScheduleList/>
+      </div>
+      <div class="section">
+        <WaitPaymentList/>
+      </div>
+    </b-container>
   </div>
 </template>
 
 <script lang="ts">
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import ScheduleList from "@/components/ScheduleList.vue";
+import WaitPaymentList from "@/components/WaitPaymentList.vue";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
   components: {
-    HelloWorld
+    ScheduleList,
+    WaitPaymentList
   }
 })
 export default class Home extends Vue {}
 </script>
+<style lang="scss" scoped>
+.home {
+  padding-top: 60px;
+  .section {
+    margin-bottom: 60px;
+  }
+}
+</style>
+
