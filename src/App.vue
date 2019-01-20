@@ -9,8 +9,6 @@
 </template>
 
 <style lang="scss">
-@import "styles/typography.scss";
-
 #nav {
   padding: 30px;
   a {

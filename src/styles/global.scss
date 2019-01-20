@@ -1,0 +1,45 @@
+@import "./variables.scss";
+@import "./typography.scss";
+
+.btn.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+
+  &:focus,
+  &:active {
+    background-color: $primary-color !important;
+    border-color: $primary-color !important;
+  }
+}
+
+a {
+  color: $primary-color;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.loader {
+  display: inline-block;
+  border: 3px solid $primary-color;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  animation: spin 2s linear infinite;
+
+  &.reverse {
+    border: 3px solid white;
+    border-top: 3px solid transparent;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
