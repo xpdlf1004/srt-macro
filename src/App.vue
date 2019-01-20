@@ -1,12 +1,21 @@
 <template>
   <div id="app">
-    <div id="nav" v-if="$store.state.isAuthenticated">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/login">Logout</router-link>
-    </div>
+    <Header v-if="$store.state.isAuthenticated"/>
     <router-view/>
   </div>
 </template>
+
+<script lang="ts">
+import Header from "@/components/Header.vue";
+import { Component, Prop, Vue } from "vue-property-decorator";
+
+@Component({
+  components: {
+    Header
+  }
+})
+export default class App extends Vue {}
+</script>
 
 <style lang="scss">
 #nav {

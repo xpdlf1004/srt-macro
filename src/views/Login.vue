@@ -71,62 +71,59 @@
 
 <script>
 import * as Cookies from "js-cookie";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-export default {
-  data() {
-    return {
-      form: {
-        userKey: "",
-        password: "",
-        selected: "userNumber",
-        options: [
-          { text: "회원 번호", value: "userNumber" },
-          { text: "이메일", value: "email", disabled: true },
-          { text: "휴대전화번호", value: "phone", disabled: true }
-        ]
-      },
-      loading: undefined,
-      hasError: undefined
-    };
-  },
-  methods: {
-    onSubmit(evt) {
-      evt.preventDefault();
-      this.loading = true;
-      this.$store
-        .dispatch("LOGIN", {
-          userNumber: this.form.userKey,
-          userPassword: this.form.password
-        })
-        .then(() => {
-          this.$router.push("/");
-        })
-        .catch(e => {
-          this.hasError = true;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    }
-  },
+@Component
+export default class Login extends Vue {
+  form = {
+    userKey: "",
+    password: "",
+    selected: "userNumber",
+    options: [
+      { text: "회원 번호", value: "userNumber" },
+      { text: "이메일", value: "email", disabled: true },
+      { text: "휴대전화번호", value: "phone", disabled: true }
+    ]
+  };
+  loading = null;
+  hasError = null;
+
   mounted() {
     this.$store.commit("CLEAR");
     Cookies.remove("connect.sid");
-  },
-  computed: {
-    selectedTypeLabel() {
-      const selected = this.form.selected;
-      if (selected === "userNumber") {
-        return "회원 번호";
-      } else if (selected === "email") {
-        return "이메일";
-      } else if (selected === "phone") {
-        return "휴대전화번호";
-      }
-      throw new Error("Invalid user type");
-    }
   }
-};
+
+  onSubmit(evt) {
+    evt.preventDefault();
+    this.loading = true;
+    this.$store
+      .dispatch("LOGIN", {
+        userNumber: this.form.userKey,
+        userPassword: this.form.password
+      })
+      .then(() => {
+        this.$router.push("/");
+      })
+      .catch(e => {
+        this.hasError = true;
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  }
+
+  get selectedTypeLabel() {
+    const selected = this.form.selected;
+    if (selected === "userNumber") {
+      return "회원 번호";
+    } else if (selected === "email") {
+      return "이메일";
+    } else if (selected === "phone") {
+      return "휴대전화번호";
+    }
+    throw new Error("Invalid user type");
+  }
+}
 </script>
 <style lang="scss" scoped>
 .login-page {
