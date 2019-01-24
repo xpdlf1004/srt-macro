@@ -18,6 +18,17 @@ export default class App extends Vue {}
 </script>
 
 <style lang="scss">
+html,
+body {
+  min-width: 1024px;
+}
+
+.page {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 60px 0 60px 0;
+}
+
 #nav {
   padding: 30px;
   a {

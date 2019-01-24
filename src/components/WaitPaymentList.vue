@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div class="title-cont">
-      <h5>결제 대기중 일정</h5>
-    </div>
     <div>
-      <ScheduleItem/>
       <span>결제 대기중인 일정이 없습니다.</span>
     </div>
   </div>
@@ -21,7 +17,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class WaitPaymentList extends Vue {}
 </script>
 <style ang="scss" scoped>
-.title-cont {
-  margin-bottom: 20px;
+.schedule-item-cont {
+  margin: 0 -8px 0 -8px;
+}
+
+.schedule-item {
+  margin: 0 8px 16px 8px;
 }
 </style>

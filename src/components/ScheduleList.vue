@@ -1,39 +1,76 @@
 <template>
   <div>
-    <div class="title-cont">
-      <h5>등록된 일정</h5>
-    </div>
-    <div>
-      <ScheduleItem/>
-      <div class="add-btn align-items-center justify-content-center">
-        <font-awesome-icon icon="plus" class="mr-1"/>일정 추가
-      </div>
+    <div class="schedule-item-cont">
+      <ScheduleItem
+        class="schedule-item"
+        v-for="schedule in scheduleList"
+        :schedule="schedule"
+        :key="schedule.id"
+      />
+      <router-link to="/schedule/add">
+        <div class="add-btn align-items-center justify-content-center schedule-item">
+          <font-awesome-icon icon="plus" class="mr-1"/>일정 추가
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
 <script lang="ts">
-import ScheduleItem from "@/components/ScheduleItem.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
+import ScheduleItem from "@/components/ScheduleItem.vue";
+import { Schedule } from "../../common/schedule";
 
 @Component({
   components: {
     ScheduleItem
   }
 })
-export default class scheduleList extends Vue {}
+export default class ScheduleList extends Vue {
+  scheduleList: Schedule[] = [
+    {
+      id: 1,
+      startPoint: "수서",
+      destPoint: "부산",
+      startTime: new Date(),
+      destTime: new Date(),
+      seatType: "normal",
+      age: "adult",
+      quantity: 2
+    },
+    {
+      id: 2,
+      startPoint: "수서",
+      destPoint: "부산",
+      startTime: new Date(),
+      destTime: new Date(),
+      seatType: "normal",
+      age: "adult",
+      quantity: 2
+    }
+  ];
+}
 </script>
-<style ang="scss" scoped>
+<style lang="scss" scoped>
 .title-cont {
   margin-bottom: 20px;
 }
 
 .add-btn {
   display: inline-flex;
+  vertical-align: top;
   width: 250px;
-  height: 100px;
-  border-radius: 10px;
-  background-color: rgb(201, 163, 194);
+  height: 112px;
+  border-radius: 8px;
+  background-color: $primary-color;
   color: white;
   cursor: pointer;
+}
+
+.schedule-item-cont {
+  margin: 0 -8px 0 -8px;
+}
+
+.schedule-item {
+  margin: 0 8px 16px 8px;
 }
 </style>

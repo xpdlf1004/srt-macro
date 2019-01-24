@@ -12,7 +12,6 @@ const requireAuth = () => (from: Route, to: Route, next: any) => {
     }
     if (store.state.isAuthenticated == undefined) {
         const sessionKey = Cookies.get("connect.sid");
-        console.log(Cookies.get());
         if (sessionKey) {
             store.commit("LOGIN");
             return next();
@@ -27,9 +26,27 @@ export default new Router({
     routes: [
         {
             path: "/",
+            redirect: "/schedule"
+        },
+        {
+            path: "/schedule",
             name: "home",
             component: Home,
-            beforeEnter: requireAuth()
+            beforeEnter: requireAuth(),
+            children: [
+                {
+                    path: "/",
+                    name: "My schedule",
+                    component: () =>
+                        import(/* webpackChunkName: "schedule" */ "./components/MySchedule.vue")
+                },
+                {
+                    path: "add",
+                    name: "Add schedule",
+                    component: () =>
+                        import(/* webpackChunkName: "schedule" */ "./components/AddSchedule.vue")
+                }
+            ]
         },
         {
             path: "/login",

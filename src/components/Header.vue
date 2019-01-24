@@ -1,26 +1,15 @@
 <template>
-  <b-navbar class="header" toggleable="md" type="dark">
-    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-    <b-navbar-brand href="#">
+  <div class="header d-flex align-items-center">
+    <div class="brand">
       <router-link to="/">SRT 매크로</router-link>
-    </b-navbar-brand>
-
-    <b-collapse is-nav id="nav_collapse">
-      <b-navbar-nav>
-        <b-nav-item href="#">
-          <router-link to="/">일정</router-link>
-        </b-nav-item>
-      </b-navbar-nav>
-
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item href="#">
-          <router-link to="/login">로그아웃</router-link>
-        </b-nav-item>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
+    </div>
+    <div>
+      <router-link to="/schedule">내 일정</router-link>
+    </div>
+    <div class="ml-auto">
+      <router-link to="/login">로그아웃</router-link>
+    </div>
+  </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -31,6 +20,7 @@ export default class Header extends Vue {}
 
 <style lang="scss" scoped>
 .header {
+  padding: 0 24px 0 24px;
   background-color: #4e2f49;
   color: white;
   height: 45px;
@@ -40,11 +30,13 @@ export default class Header extends Vue {}
       text-decoration: none;
     }
   }
+  .brand {
+    margin-right: 60px;
+    font-weight: bold;
+  }
   .nav-item {
     a {
-      &.router-link-exact-active {
-        color: white;
-      }
+      color: white;
     }
   }
 }

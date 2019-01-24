@@ -14,6 +14,10 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
+[*.vue]
+indent_style = space
+indent_size = 2
+
 # npm inserts a final newline.
 [package.json]
 trim_trailing_whitespace = false
