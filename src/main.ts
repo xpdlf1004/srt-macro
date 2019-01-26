@@ -8,6 +8,19 @@ import {
     faExchangeAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import moment from "moment";
+moment.locale("ko", {
+    weekdays: [
+        "일요일",
+        "월요일",
+        "화요일",
+        "수요일",
+        "목요일",
+        "금요일",
+        "토요일"
+    ],
+    weekdaysShort: ["일", "월", "화", "수", "목", "금", "토"]
+});
 
 import BootstrapVue from "bootstrap-vue";
 import Vue from "vue";

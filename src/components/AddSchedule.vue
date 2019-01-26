@@ -13,7 +13,7 @@
               v-model="form.startPoint"
               class="station-select mr-3"
             ></b-form-select>
-            <font-awesome-icon icon="exchange-alt"/>
+            <font-awesome-icon icon="exchange-alt" />
             <b-form-select
               :options="stations"
               required
@@ -22,7 +22,12 @@
             ></b-form-select>
           </div>
           <div class="d-inline-block mr-3">
-            <b-form-select :options="dateOptions" required v-model="form.date" class="date-select"></b-form-select>
+            <b-form-select
+              :options="dateOptions"
+              required
+              v-model="form.date"
+              class="date-select"
+            ></b-form-select>
           </div>
           <div class="d-inline-block">
             <b-form-select
@@ -42,45 +47,38 @@
 import { Component, Vue } from "vue-property-decorator";
 import moment from "moment";
 import _ from "lodash";
-moment.locale("ko", {
-  weekdays: [
-    "일요일",
-    "월요일",
-    "화요일",
-    "수요일",
-    "목요일",
-    "금요일",
-    "토요일"
-  ],
-  weekdaysShort: ["일", "월", "화", "수", "목", "금", "토"]
-});
+import * as Station from "../../common/station";
 
 @Component({
   components: {}
 })
 export default class AddSchedule extends Vue {
   form = {
-    startPoint: null,
-    destPoint: null,
+    startPoint: _.find(Station.stations, station => station.text === "수서")!
+      .value,
+    destPoint: _.find(Station.stations, station => station.text === "부산")!
+      .value,
     date: moment().format("YYYY/MM/DD (ddd)"),
-    startTime: Math.floor(Number(moment().format("HH")) / 2) * 2,
+    startTime: Math.floor(moment().get("hour") / 2) * 2,
     adultCount: null,
     childCount: null
   };
-  stations = [{ text: "Select One", value: null }];
-  startTimeOptions = _.map(_.range(12), index =>
-    moment()
+  stations = Station.stations;
+  startTimeOptions = _.map(_.range(12), index => {
+    const date = moment()
       .startOf("date")
-      .add(index * 2, "hours")
-      .format("HH")
-  );
+      .add(index * 2, "hours");
+    return {
+      value: date.get("hour"),
+      text: date.format("HH")
+    };
+  });
   dateOptions = _.map(_.range(30), index =>
     moment()
       .startOf("date")
       .add(index, "day")
       .format("YYYY/MM/DD (ddd)")
   );
-  mounted() {}
 }
 </script>
 <style lang="scss" scoped>
