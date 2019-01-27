@@ -1,10 +1,13 @@
 export interface Schedule {
-    id: number;
     startPoint: string;
+    startStation: string;
     destPoint: string;
-    startTime: Date;
-    destTime: Date;
+    destStation: string;
+    date: string;
+    startTime: string;
+    destTime: string;
     seatType: "normal" | "special";
-    age: "adult" | "kid";
-    quantity: number;
+    adultCount: number;
+    childCount: number;
+    error?: string;
 }

@@ -9,7 +9,10 @@
       />
       <router-link to="/schedule/add">
         <div class="add-btn align-items-center justify-content-center schedule-item">
-          <font-awesome-icon icon="plus" class="mr-1"/>일정 추가
+          <font-awesome-icon
+            icon="plus"
+            class="mr-1"
+          />일정 추가
         </div>
       </router-link>
     </div>
@@ -28,24 +31,16 @@ import { Schedule } from "../../common/schedule";
 export default class ScheduleList extends Vue {
   scheduleList: Schedule[] = [
     {
-      id: 1,
-      startPoint: "수서",
-      destPoint: "부산",
-      startTime: new Date(),
-      destTime: new Date(),
+      startPoint: "0000",
+      startStation: "수서",
+      destPoint: "0000",
+      destStation: "부산",
+      startTime: "00:00",
+      destTime: "00:00",
+      date: "2018-09-22",
       seatType: "normal",
-      age: "adult",
-      quantity: 2
-    },
-    {
-      id: 2,
-      startPoint: "수서",
-      destPoint: "부산",
-      startTime: new Date(),
-      destTime: new Date(),
-      seatType: "normal",
-      age: "adult",
-      quantity: 2
+      childCount: 0,
+      adultCount: 1
     }
   ];
 }

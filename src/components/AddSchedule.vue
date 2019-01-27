@@ -4,9 +4,15 @@
       <div class="title-cont">
         <h5>일정 등록</h5>
       </div>
-      <AddScheduleForm @onSubmit="onSubmit"/>
-      <div class="schedule-table-cont">
-        <AddScheduleTable :trains="trains"/>
+      <AddScheduleForm @onSubmit="onSubmit" />
+      <div
+        class="schedule-table-cont"
+        v-if="trains && selectedFormData"
+      >
+        <AddScheduleTable
+          :trains="trains"
+          :selectedFormData="selectedFormData"
+        />
       </div>
     </div>
   </div>
@@ -27,26 +33,15 @@ import * as APIClient from "../api-client";
   }
 })
 export default class AddSchedule extends Vue {
-  trains = [
-    {
-      startTime: "08:00",
-      startPoint: "서울",
-      destTime: "10:20",
-      destPoint: "수서"
-    },
-    {
-      startTime: "08:00",
-      startPoint: "서울",
-      destTime: "10:20",
-      destPoint: "수서"
-    },
-    {
-      startTime: "08:00",
-      startPoint: "서울",
-      destTime: "10:20",
-      destPoint: "수서"
-    }
-  ];
+  trains = null;
+  selectedFormData: {
+    startPoint: string;
+    destPoint: string;
+    date: string;
+    startTime: string;
+    adultCount: number;
+    childCount: number;
+  } | null = null;
 
   onSubmit(data: {
     startPoint: string;
@@ -54,8 +49,10 @@ export default class AddSchedule extends Vue {
     date: string;
     startTime: string;
     adultCount: number;
-    cildCount: number;
+    childCount: number;
   }) {
+    this.selectedFormData = data;
+
     APIClient.getTrains({
       startStation: data.startPoint,
       destStation: data.destPoint,
@@ -63,17 +60,17 @@ export default class AddSchedule extends Vue {
       requestTime: data.startTime
     })
       .then(response => {
-        console.log(response);
+        this.trains = response;
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   }
 }
 </script>
 <style lang="scss" scoped>
 .schedule-table-cont {
-  margin-top: 30px;
+  margin-top: 60px;
 }
 </style>
 

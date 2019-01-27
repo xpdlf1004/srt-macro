@@ -30,7 +30,7 @@ function post(path: string, body?: any) {
                     new Error(`${"POST"} ${path}: ${r.statusText}`)
                 );
             }
-            return r.status === 204 ? undefined : r.data.json();
+            return r.data;
         });
 }
 
@@ -42,11 +42,11 @@ function get(path: string) {
         })
         .then(r => {
             if (r.status >= 400) {
-                console.log(`${"POST"} ${path}: ${r.statusText}`);
+                console.log(`${"GET"} ${path}: ${r.statusText}`);
                 return Promise.reject(
-                    new Error(`${"POST"} ${path}: ${r.statusText}`)
+                    new Error(`${"GET"} ${path}: ${r.statusText}`)
                 );
             }
-            return r.status === 204 ? undefined : r.data.json();
+            return r.data;
         });
 }

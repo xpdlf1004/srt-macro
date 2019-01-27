@@ -113,18 +113,21 @@ app.get("/trainList", (req, res, next) => {
                     const startTimeText = $(tdElem[3])
                         .text()
                         .trim();
-                    const endTimeText = $(tdElem[4])
+                    const startTimeIndex = startTimeText.match(/[0-9]/)!.index;
+                    const startTime = startTimeText.slice(startTimeIndex);
+                    const destTimeText = $(tdElem[4])
                         .text()
                         .trim();
+                    const destTimeIndex = destTimeText.match(/[0-9]/)!.index;
+                    const destTime = destTimeText.slice(destTimeIndex);
                     const duration = $(tdElem[10])
                         .text()
                         .trim();
-                    const trainInfo = {
-                        startTimeText,
-                        endTimeText,
+                    trainList.push({
+                        startTime,
+                        destTime,
                         duration
-                    };
-                    trainList.push(trainInfo);
+                    });
                 }
             });
             res.status(HttpStatus.OK).send(trainList);

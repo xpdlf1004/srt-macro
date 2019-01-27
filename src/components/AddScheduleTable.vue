@@ -1,34 +1,69 @@
 <template>
   <div class="Add-schedule-table">
-    <div class="table-header">수서 -> 부산</div>
-    <b-table :items="trains" :fields="fields">
-      <template slot="start" slot-scope="data">{{`${data.item.startPoint} ${data.item.startTime}`}}</template>
-      <template slot="dest" slot-scope="data">{{`${data.item.destPoint} ${data.item.destTime}`}}</template>
-      <template slot="special" slot-scope="data">
-        <b-button variant="primary">일정등록</b-button>
+    <div class="table-header">{{startStation}}
+      <font-awesome-icon icon="arrow-right" />
+      {{destStation}}<span class="mr-3" />{{selectedDate}}</div>
+    <b-table
+      :items="trains"
+      :fields="fields"
+    >
+      <template
+        slot="startTime"
+        slot-scope="data"
+      >{{startStation}}<br />{{data.item.startTime}}</template>
+      <template
+        slot="destTime"
+        slot-scope="data"
+      >{{destStation}}<br />{{data.item.destTime}}</template>
+      <template
+        slot="special"
+        slot-scope="data"
+      >
+        <b-button
+          variant="primary"
+          @click="handleAddSpecialSeat(data.item)"
+        >일정등록</b-button>
       </template>
-      <template slot="normal" slot-scope="data">
-        <b-button variant="primary">일정등록</b-button>
+      <template
+        slot="normal"
+        slot-scope="data"
+      >
+        <b-button
+          variant="primary"
+          @click="handleAddNormalSeat(data.item)"
+        >일정등록</b-button>
       </template>
     </b-table>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { Train } from "../../common/train";
+import * as Station from "../../common/station";
+import moment from "moment";
+import * as _ from "lodash";
 
 @Component({
   components: {}
 })
 export default class AddScheduleTable extends Vue {
-  @Prop() trains: any;
+  @Prop() trains!: Train[];
+  @Prop() selectedFormData!: {
+    startPoint: string;
+    destPoint: string;
+    date: string;
+    startTime: string;
+    adultCount: number;
+    childCount: number;
+  };
   fields = [
     {
-      key: "start",
+      key: "startTime",
       label: "출발시간",
       class: "text-center custom"
     },
     {
-      key: "dest",
+      key: "destTime",
       label: "도착시간",
       class: "text-center"
     },
@@ -43,6 +78,27 @@ export default class AddScheduleTable extends Vue {
       class: "text-center"
     }
   ];
+  handleAddNormalSeat(data: Train) {
+    console.log(data);
+  }
+  handleAddSpecialSeat(data: Train) {
+    console.log(data);
+  }
+  get startStation() {
+    const station = Station.stations.find(
+      s => s.value === this.selectedFormData.startPoint
+    );
+    return station!.text;
+  }
+  get destStation() {
+    const station = Station.stations.find(
+      s => s.value === this.selectedFormData.destPoint
+    );
+    return station!.text;
+  }
+  get selectedDate() {
+    return moment(this.selectedFormData.date).format("YYYY년 MM월 DD일 (ddd)");
+  }
 }
 </script>
 <style lang="scss">
@@ -62,6 +118,8 @@ export default class AddScheduleTable extends Vue {
     td {
       border: 1px solid $primary-color;
       vertical-align: middle;
+      font-size: 0.8rem;
+      padding: 8px;
       button {
         font-size: 0.8rem;
       }

@@ -1,5 +1,5 @@
 export interface Train {
-    startTimeText: string;
-    endTimeText: string;
+    startTime: string;
+    destTime: string;
     duration: string;
 }

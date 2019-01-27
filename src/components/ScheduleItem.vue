@@ -1,16 +1,16 @@
 <template>
   <div class="schedule-item">
     <div class="start-dest-cont">
-      <span class="mr-2">{{ schedule.startPoint }}</span>
-      <font-awesome-icon icon="arrow-right"/>
-      <span class="ml-2">{{ schedule.destPoint }}</span>
+      <span class="mr-2">{{ schedule.startStation }}</span>
+      <font-awesome-icon icon="arrow-right" />
+      <span class="ml-2">{{ schedule.destStation }}</span>
     </div>
     <div class="schedule-info-cont">
       <div>
-        <span>출발 {{ startTimeLabel }}</span>
+        <span>출발 {{ schedule.startTime }}</span>
       </div>
       <div>
-        <span>도착 {{ destTimeLabel }}</span>
+        <span>도착 {{ schedule.destTime }}</span>
       </div>
       <div>
         <span>{{ seatInfoLabel }}</span>
@@ -27,18 +27,9 @@ import { Schedule } from "../../common/schedule";
 export default class ScheduleItem extends Vue {
   @Prop() private schedule!: Schedule;
 
-  get startTimeLabel() {
-    return moment(this.schedule.startTime).format("HH:mm");
-  }
-
-  get destTimeLabel() {
-    return moment(this.schedule.destTime).format("HH:mm");
-  }
-
   get seatInfoLabel() {
-    return `${this.schedule.seatType === "normal" ? "일반실" : "특실"} ${
-      this.schedule.quantity
-    }명`;
+    return `${this.schedule.seatType === "normal" ? "일반실" : "특실"} ${this
+      .schedule.adultCount + this.schedule.childCount}명`;
   }
 }
 </script>

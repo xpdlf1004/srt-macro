@@ -1,16 +1,19 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import * as APIClient from "./api-client";
+import { Schedule } from "../common/schedule";
 
 Vue.use(Vuex);
 
 export interface RootState {
     isAuthenticated?: boolean;
+    schedules?: Schedule[];
 }
 
 function initialState() {
     return {
-        isAuthenticated: undefined
+        isAuthenticated: undefined,
+        schedules: undefined
     };
 }
 
@@ -32,11 +35,9 @@ export default new Vuex.Store<RootState>({
     },
     actions: {
         LOGIN({ commit }, { userNumber, userPassword }) {
-            return APIClient.login({ userNumber, userPassword })
-                .catch(e => console.log(e))
-                .then(() => {
-                    commit("LOGIN");
-                });
+            return APIClient.login({ userNumber, userPassword }).then(() => {
+                commit("LOGIN");
+            });
         },
         LOGOUT({ commit }) {
             commit("LOGOUT");
