@@ -7,6 +7,7 @@ import * as cheerio from "cheerio";
 import * as morgan from "morgan";
 import * as cors from "cors";
 import * as HttpStatus from "http-status-codes";
+import { Train } from "../common/train";
 const FileStore = require("session-file-store")(session);
 
 const app = express();
@@ -73,27 +74,27 @@ app.post("/login", (req, res, next) => {
 
 app.get("/trainList", (req, res, next) => {
     const startStation = req.query.startStation;
-    const startStationNumber = req.query.startStationNumber;
-    const endStation = req.query.endStation;
-    const endStationNumber = req.query.endStationNumber;
+    const destStation = req.query.destStation;
+    // YYYYMMDD
     const requestDate = req.query.requestDate;
+    // HH
     const requestTime = req.query.requestTime;
     axios
         .post(
             "https://etk.srail.co.kr/hpg/hra/01/selectScheduleList.do?pageId=TK0101010000",
             qs.stringify({
-                dptRsStnCd: startStationNumber,
-                arvRsStnCd: endStationNumber,
+                dptRsStnCd: startStation,
+                arvRsStnCd: destStation,
                 stlbTrnClsfCd: "05",
                 psgNum: "1",
                 seatAttCd: "015",
                 isRequest: "Y",
-                dptRsStnCdNm: startStation,
-                arvRsStnCdNm: endStation,
                 dptDt: requestDate,
-                dptTm: requestTime + "00",
+                dptTm: requestTime + "0000",
                 chtnDvCd: "1",
+                // 어른
                 psgInfoPerPrnb1: "1",
+                // 어린이
                 psgInfoPerPrnb5: "0",
                 psgInfoPerPrnb4: "0",
                 psgInfoPerPrnb2: "0",
@@ -105,28 +106,22 @@ app.get("/trainList", (req, res, next) => {
         )
         .then(response => {
             const $ = cheerio.load(response.data);
-            const trainList: any = [];
+            const trainList: Train[] = [];
             $("#result-form table tbody tr").each((trIndex, trElem) => {
                 const tdElem = $(trElem).find("td");
                 if (tdElem.length === 11) {
-                    const trainNumber = $(tdElem[2])
+                    const startTimeText = $(tdElem[3])
                         .text()
                         .trim();
-                    const startTime = $(tdElem[3])
+                    const endTimeText = $(tdElem[4])
                         .text()
                         .trim();
-                    const endTime = $(tdElem[4])
-                        .text()
-                        .trim();
-                    // var canSpecialSeat = $(tdElem[5]).text().trim().includes('예약하기');
-                    // var canCommonSeat = $(tdElem[6]).text().trim().includes('예약하기');
                     const duration = $(tdElem[10])
                         .text()
                         .trim();
                     const trainInfo = {
-                        trainNumber,
-                        startTime,
-                        endTime,
+                        startTimeText,
+                        endTimeText,
                         duration
                     };
                     trainList.push(trainInfo);
@@ -137,7 +132,7 @@ app.get("/trainList", (req, res, next) => {
         .catch(next);
 });
 
-app.post("/checkLogin", function(req, res) {
+app.post("/checkLogin", (req, res) => {
     if (req.session!.JSESSIONID_ETK) {
         res.status(HttpStatus.OK).send("logged in");
     } else {

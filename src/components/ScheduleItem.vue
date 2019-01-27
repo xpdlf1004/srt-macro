@@ -47,7 +47,7 @@ export default class ScheduleItem extends Vue {
   display: inline-block;
   width: 250px;
   border: 1px solid $primary-color;
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 12px;
   vertical-align: top;
 

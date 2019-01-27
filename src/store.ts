@@ -32,9 +32,11 @@ export default new Vuex.Store<RootState>({
     },
     actions: {
         LOGIN({ commit }, { userNumber, userPassword }) {
-            return APIClient.login({ userNumber, userPassword }).then(() => {
-                commit("LOGIN");
-            });
+            return APIClient.login({ userNumber, userPassword })
+                .catch(e => console.log(e))
+                .then(() => {
+                    commit("LOGIN");
+                });
         },
         LOGOUT({ commit }) {
             commit("LOGOUT");

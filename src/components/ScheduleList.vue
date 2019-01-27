@@ -60,7 +60,7 @@ export default class ScheduleList extends Vue {
   vertical-align: top;
   width: 250px;
   height: 112px;
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: $primary-color;
   color: white;
   cursor: pointer;
