@@ -7,13 +7,13 @@ Vue.use(Vuex);
 
 export interface RootState {
     isAuthenticated?: boolean;
-    schedules?: Schedule[];
+    schedules: Schedule[];
 }
 
 function initialState() {
     return {
         isAuthenticated: undefined,
-        schedules: undefined
+        schedules: []
     };
 }
 
@@ -31,6 +31,9 @@ export default new Vuex.Store<RootState>({
             Object.keys(s).forEach(key => {
                 state[key] = s[key];
             });
+        },
+        ADD_SCHEDULE(state, schedule: Schedule) {
+            state.schedules = [...state.schedules, schedule];
         }
     },
     actions: {

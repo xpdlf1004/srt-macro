@@ -42,6 +42,7 @@ import { Train } from "../../common/train";
 import * as Station from "../../common/station";
 import moment from "moment";
 import * as _ from "lodash";
+import { Schedule } from "../../common/schedule";
 
 @Component({
   components: {}
@@ -79,10 +80,34 @@ export default class AddScheduleTable extends Vue {
     }
   ];
   handleAddNormalSeat(data: Train) {
-    console.log(data);
+    const newSchedule: Schedule = {
+      startPoint: this.selectedFormData.startPoint,
+      startStation: this.startStation,
+      destPoint: this.selectedFormData.destPoint,
+      destStation: this.destStation,
+      date: this.selectedFormData.date,
+      startTime: data.startTime,
+      destTime: data.destTime,
+      seatType: "normal",
+      adultCount: this.selectedFormData.adultCount,
+      childCount: this.selectedFormData.childCount
+    };
+    this.$store.commit("ADD_SCHEDULE", newSchedule);
   }
   handleAddSpecialSeat(data: Train) {
-    console.log(data);
+    const newSchedule: Schedule = {
+      startPoint: this.selectedFormData.startPoint,
+      startStation: this.startStation,
+      destPoint: this.selectedFormData.destPoint,
+      destStation: this.destStation,
+      date: this.selectedFormData.date,
+      startTime: data.startTime,
+      destTime: data.destTime,
+      seatType: "special",
+      adultCount: this.selectedFormData.adultCount,
+      childCount: this.selectedFormData.childCount
+    };
+    this.$store.commit("ADD_SCHEDULE", newSchedule);
   }
   get startStation() {
     const station = Station.stations.find(

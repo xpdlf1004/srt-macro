@@ -29,20 +29,7 @@ import { Schedule } from "../../common/schedule";
   }
 })
 export default class ScheduleList extends Vue {
-  scheduleList: Schedule[] = [
-    {
-      startPoint: "0000",
-      startStation: "수서",
-      destPoint: "0000",
-      destStation: "부산",
-      startTime: "00:00",
-      destTime: "00:00",
-      date: "2018-09-22",
-      seatType: "normal",
-      childCount: 0,
-      adultCount: 1
-    }
-  ];
+  scheduleList: Schedule[] = this.$store.state.schedules;
 }
 </script>
 <style lang="scss" scoped>
@@ -54,7 +41,7 @@ export default class ScheduleList extends Vue {
   display: inline-flex;
   vertical-align: top;
   width: 250px;
-  height: 112px;
+  height: 130px;
   border-radius: 6px;
   background-color: $primary-color;
   color: white;

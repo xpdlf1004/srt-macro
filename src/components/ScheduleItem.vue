@@ -7,6 +7,9 @@
     </div>
     <div class="schedule-info-cont">
       <div>
+        <span>{{ schedule.date }}</span>
+      </div>
+      <div>
         <span>출발 {{ schedule.startTime }}</span>
       </div>
       <div>
@@ -15,6 +18,9 @@
       <div>
         <span>{{ seatInfoLabel }}</span>
       </div>
+    </div>
+    <div class="right-bottom">
+      <div class="loader" />
     </div>
   </div>
 </template>
@@ -41,6 +47,7 @@ export default class ScheduleItem extends Vue {
   border-radius: 6px;
   padding: 12px;
   vertical-align: top;
+  position: relative;
 
   .start-dest-cont {
     margin-bottom: 8px;
@@ -50,6 +57,11 @@ export default class ScheduleItem extends Vue {
   }
   .schedule-info-cont {
     font-size: 0.75rem;
+  }
+  .right-bottom {
+    position: absolute;
+    right: 12px;
+    bottom: 6px;
   }
 }
 </style>
