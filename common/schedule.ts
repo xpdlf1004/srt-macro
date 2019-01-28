@@ -10,4 +10,5 @@ export interface Schedule {
     adultCount: number;
     childCount: number;
     error?: string;
+    trainId: string;
 }

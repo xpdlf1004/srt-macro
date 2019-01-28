@@ -17,6 +17,17 @@ export function getTrains(params: {
     return get(`/trainList?${qs.stringify(params)}`);
 }
 
+export function reserveTrain(params: {
+    date: string;
+    startTime: string;
+    startPoint: string;
+    destPoint: string;
+    seatType: "normal" | "special";
+    trainId: string;
+}) {
+    return post("/reserveTrain", params);
+}
+
 function post(path: string, body?: any) {
     return axios
         .post(path, body)

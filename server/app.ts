@@ -8,6 +8,7 @@ import * as morgan from "morgan";
 import * as cors from "cors";
 import * as HttpStatus from "http-status-codes";
 import { Train } from "../common/train";
+import * as moment from "moment";
 const FileStore = require("session-file-store")(session);
 
 const app = express();
@@ -110,6 +111,9 @@ app.get("/trainList", (req, res, next) => {
             $("#result-form table tbody tr").each((trIndex, trElem) => {
                 const tdElem = $(trElem).find("td");
                 if (tdElem.length === 11) {
+                    const trainId = $(tdElem[2])
+                        .text()
+                        .trim();
                     const startTimeText = $(tdElem[3])
                         .text()
                         .trim();
@@ -126,7 +130,8 @@ app.get("/trainList", (req, res, next) => {
                     trainList.push({
                         startTime,
                         destTime,
-                        duration
+                        duration,
+                        trainId
                     });
                 }
             });
@@ -154,14 +159,16 @@ app.post("/logout", (req, res, next) => {
 });
 
 app.post("/reserveTrain", async (req, res, next) => {
-    function checkUserInfo(
-        startDate: any,
-        startTime: any,
-        trainNumber: any,
-        startStation: any,
-        endStation: any,
-        seatType: any
-    ) {
+    function checkUserInfo(params: {
+        date: string;
+        startTime: string;
+        trainId: string;
+        startPoint: string;
+        destPoint: string;
+        seatType: string;
+    }) {
+        console.log(params);
+        console.log(req.session!.JSESSIONID_ETK);
         return axios.post(
             "https://etk.srail.co.kr/hpg/hra/01/checkUserInfo.do?pageId=TK0101010000",
             qs.stringify({
@@ -169,20 +176,20 @@ app.post("/reserveTrain", async (req, res, next) => {
                 jobId: "1101",
                 jrnyTpCd: "11",
                 jrnyCnt: "1",
-                totPrnb: "1",
+                totPrnb: "1", // 인원수 인듯?
                 stndFlg: "N",
                 // trnOrdrNo1: '1', // 기차 순번 Optional
                 jrnySqno1: "001",
-                runDt1: startDate, // 출발 날짜 ex) 20180212
-                trnNo1: trainNumber, // 기차번호 ex) 00339
+                runDt1: params.date, // 출발 날짜 ex) 20180212
+                trnNo1: `00${params.trainId}`, // 기차번호 ex) 00339
                 trnGpCd1: "300",
                 stlbTrnClsfCd1: "17",
-                dptDt1: startDate, // 출발 날짜 ex) 20180212
-                dptTm1: startTime, // 출발 시간 ex) 144600
-                dptRsStnCd1: startStation, // 출발역 ex) 0010
+                dptDt1: params.date, // 출발 날짜 ex) 20180212
+                dptTm1: params.startTime, // 출발 시간 ex) 144600
+                dptRsStnCd1: params.startPoint, // 출발역 ex) 0010
                 // dptStnConsOrdr1: '000001',// 출발역 Optional
                 // dptStnRunOrdr1: '000001',// 출발역 Optional
-                arvRsStnCd1: endStation, // 도착역 ex) 0020
+                arvRsStnCd1: params.destPoint, // 도착역 ex) 0020
                 // arvStnConsOrdr1: '000020',// 도착역 Optional
                 // arvStnRunOrdr1: '000006',// 도착역 Optional
                 scarYn1: "N",
@@ -197,7 +204,7 @@ app.post("/reserveTrain", async (req, res, next) => {
                 seatNo1_7: "",
                 seatNo1_8: "",
                 seatNo1_9: "",
-                psrmClCd1: seatType, // 일반 1, 특실 2
+                psrmClCd1: params.seatType === "normal" ? 1 : 2, // 일반 1, 특실 2
                 smkSeatAttCd1: "000",
                 dirSeatAttCd1: "000",
                 locSeatAttCd1: "000",
@@ -205,7 +212,7 @@ app.post("/reserveTrain", async (req, res, next) => {
                 etcSeatAttCd1: "000",
                 psgGridcnt: "1",
                 psgTpCd1: "1",
-                psgInfoPerPrnb1: "1",
+                psgInfoPerPrnb1: "1", // 인원수 인듯 ?
                 psgTpCd2: "",
                 psgInfoPerPrnb2: "",
                 psgTpCd3: "",
@@ -226,7 +233,6 @@ app.post("/reserveTrain", async (req, res, next) => {
         );
     }
 
-    /*
     function requestReservationInfo() {
         return axios.get(
             "https://etk.srail.co.kr/hpg/hra/02/requestReservationInfo.do?pageId=TK0101030000",
@@ -236,7 +242,7 @@ app.post("/reserveTrain", async (req, res, next) => {
                 }
             }
         );
-    }*/
+    }
 
     function confirmReservationInfo() {
         return axios.get(
@@ -253,27 +259,29 @@ app.post("/reserveTrain", async (req, res, next) => {
         res.status(HttpStatus.UNAUTHORIZED).send();
         return;
     }
-    const startDate = req.body.startDate;
+    const date = req.body.date;
     const startTime = req.body.startTime;
-    const trainNumber = req.body.trainNumber;
-    const startStation = req.body.startStation;
-    const endStation = req.body.endStation;
+    const trainId = req.body.trainId;
+    const startPoint = req.body.startPoint;
+    const destPoint = req.body.destPoint;
     const seatType = req.body.seatType;
 
+    const dateText = `${moment(date, "YYYY-MM-DD (hhh)").format("YYYYMMDD")}`;
+    const startTimeText = `${moment(startTime, "HH:mm").format("HHmm")}00`;
     try {
-        const checkUserInfoResponse = await checkUserInfo(
-            startDate,
-            startTime,
-            trainNumber,
-            startStation,
-            endStation,
+        const checkUserInfoResponse = await checkUserInfo({
+            date: dateText,
+            startTime: startTimeText,
+            trainId,
+            startPoint,
+            destPoint,
             seatType
-        );
+        });
         if (checkUserInfoResponse.data.includes("selectLoginForm.do")) {
             res.status(HttpStatus.UNAUTHORIZED).send("invalid token");
             return;
         }
-        // const requestReservationInfoResponse = await requestReservationInfo();
+        await requestReservationInfo();
         const confirmReservationInfoResponse = await confirmReservationInfo();
         if (confirmReservationInfoResponse.data.includes("잔여석없음")) {
             res.status(HttpStatus.OK).send("full");
@@ -298,9 +306,8 @@ app.post("/reserveTrain", async (req, res, next) => {
                 "입력하신 값을 다시 확인하여 주시기 바랍니다."
             )
         ) {
-            res.status(HttpStatus.OK).send("unknown error");
+            res.status(HttpStatus.BAD_GATEWAY).send("unknown error");
         } else {
-            console.log(confirmReservationInfoResponse.data);
             next();
         }
     } catch (e) {

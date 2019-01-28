@@ -21,7 +21,7 @@
       >
         <b-button
           variant="primary"
-          @click="handleAddSpecialSeat(data.item)"
+          @click="handleAddSeat(data.item, 'special')"
         >일정등록</b-button>
       </template>
       <template
@@ -30,7 +30,7 @@
       >
         <b-button
           variant="primary"
-          @click="handleAddNormalSeat(data.item)"
+          @click="handleAddSeat(data.item, 'noraml')"
         >일정등록</b-button>
       </template>
     </b-table>
@@ -79,7 +79,7 @@ export default class AddScheduleTable extends Vue {
       class: "text-center"
     }
   ];
-  handleAddNormalSeat(data: Train) {
+  handleAddSeat(data: Train, seatType: "normal" | "special") {
     const newSchedule: Schedule = {
       startPoint: this.selectedFormData.startPoint,
       startStation: this.startStation,
@@ -88,26 +88,17 @@ export default class AddScheduleTable extends Vue {
       date: this.selectedFormData.date,
       startTime: data.startTime,
       destTime: data.destTime,
-      seatType: "normal",
+      seatType,
       adultCount: this.selectedFormData.adultCount,
-      childCount: this.selectedFormData.childCount
+      childCount: this.selectedFormData.childCount,
+      trainId: data.trainId
     };
     this.$store.commit("ADD_SCHEDULE", newSchedule);
-  }
-  handleAddSpecialSeat(data: Train) {
-    const newSchedule: Schedule = {
-      startPoint: this.selectedFormData.startPoint,
-      startStation: this.startStation,
-      destPoint: this.selectedFormData.destPoint,
-      destStation: this.destStation,
-      date: this.selectedFormData.date,
-      startTime: data.startTime,
-      destTime: data.destTime,
-      seatType: "special",
-      adultCount: this.selectedFormData.adultCount,
-      childCount: this.selectedFormData.childCount
-    };
-    this.$store.commit("ADD_SCHEDULE", newSchedule);
+    this.$toasted.show("새로운 일정이 등록되었습니다.", {
+      theme: "outline",
+      position: "bottom-center",
+      duration: 2000
+    });
   }
   get startStation() {
     const station = Station.stations.find(
