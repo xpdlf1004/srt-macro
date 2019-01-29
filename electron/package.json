@@ -1,0 +1,14 @@
+{
+  "name": "srt-new-electron",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+      "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^4.0.2",
+    "electron-serve": "^0.2.0"
+  }
+}
