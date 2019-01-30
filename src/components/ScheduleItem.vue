@@ -24,7 +24,9 @@
         v-if="schedule.status==='waitForPay'"
         href="https://etk.srail.co.kr/hpg/hra/02/selectReservationList.do?pageId=TK0102010000"
         target="_blank"
-      >결제하기</a>
+      >
+        <div class="text-right"><span>{{remainingTime}} 까지</span><br /><span>결제하기</span></div>
+      </a>
       <div
         v-else-if="schedule.status==='running'"
         class="loader"
@@ -45,6 +47,10 @@ export default class ScheduleItem extends Vue {
   get seatInfoLabel() {
     return `${this.schedule.seatType === "normal" ? "일반실" : "특실"} ${this
       .schedule.adultCount + this.schedule.childCount}명`;
+  }
+
+  get remainingTime() {
+    return moment.unix(this.schedule.ticketingExpiredTime!).format("HH:mm");
   }
 }
 </script>
@@ -70,7 +76,8 @@ export default class ScheduleItem extends Vue {
   .right-bottom {
     position: absolute;
     right: 12px;
-    bottom: 6px;
+    bottom: 8px;
+    font-size: 0.8rem;
   }
 }
 </style>

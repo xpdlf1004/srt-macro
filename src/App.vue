@@ -11,6 +11,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import * as APIClient from "./api-client";
 import { Schedule } from "common/schedule";
 import moment from "moment";
+import * as Noti from "./notification";
 
 @Component({
   components: {
@@ -20,6 +21,7 @@ import moment from "moment";
 export default class App extends Vue {
   worker: any;
   mounted() {
+    Noti.initNotify();
     console.info("Start macro worker!");
     let working = false;
     this.worker = setInterval(async () => {
@@ -48,9 +50,14 @@ export default class App extends Vue {
             });
             if (response === "ok") {
               console.log("티켓 예약 완료!");
+              Noti.notifyMe(
+                `${schedule.date} ${
+                  schedule.startTime
+                } 열차 예약 성공 20분안에 결제하세요.`
+              );
               schedule.ticketingExpiredTime = moment()
                 .add(20, "minute")
-                .milliseconds();
+                .unix();
               schedule.status = "waitForPay";
               this.$store.commit("UPDATE_SCHEDULE", schedule);
             } else {
@@ -61,6 +68,7 @@ export default class App extends Vue {
           }
         });
       }, Promise.resolve());
+
       working = false;
     }, 5000);
   }
