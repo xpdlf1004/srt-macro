@@ -1,0 +1,11 @@
+{
+  "name": "srt-new-build",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build:osx": "../node_modules/.bin/electron-packager . --electron-version \"4.0.2\" --overwrite --platform darwin",
+    "build:linux": "../node_modules/.bin/electron-packager . --electron-version \"4.0.2\" --overwrite --platform linux",
+    "build:win": "../node_modules/.bin/electron-packager . --electron-version \"4.0.2\" --overwrite --platform win32 --arch ia32"
+  }
+}

@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "lib": ["es2015"],
+    "lib": ["es2015", "dom"],
     "rootDir": ".",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": false,
     "importHelpers": true,
+    "outDir": "build",
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictNullChecks": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
   },
   "include": ["server/**/*", "common/**/*"],
   "exclude": ["src/**/*", "node_modules"]
