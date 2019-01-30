@@ -1,6 +1,6 @@
 export function notifyMe(message: string) {
     if (Notification.permission === "granted") {
-        new Notification(message);
+        const noti = new Notification(message);
     }
 }
 

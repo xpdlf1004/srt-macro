@@ -31,6 +31,19 @@ export default class App extends Vue {
       if (!this.$store.state.isAuthenticated) {
         return;
       }
+
+      const waitPaymentSchedules: Schedule[] = this.$store.getters
+        .waitPaymentSchedules;
+      const currentUnix = moment().unix();
+      waitPaymentSchedules.forEach(schedule => {
+        if (schedule.ticketingExpiredTime! < currentUnix) {
+          schedule.ticketingExpiredTime = undefined;
+          schedule.status = "running";
+          this.$store.commit("UPDATE_SCHEDULE", schedule);
+          console.info("결제기한이 만료되어 일정으로 추가합니다.");
+        }
+      });
+
       const schedules: Schedule[] = this.$store.getters.schedules;
       if (schedules.length === 0) {
         return;
@@ -68,7 +81,6 @@ export default class App extends Vue {
           }
         });
       }, Promise.resolve());
-
       working = false;
     }, 5000);
   }
