@@ -1,12 +1,12 @@
 const { app, BrowserWindow, protocol } = require("electron");
 require("../server/app");
-const serve = require('electron-serve');
+const serve = require("electron-serve");
 
 let loadURL;
 if (process.env.NODE_ENV) {
-    loadURL = serve({directory: "../dist/"});
+    loadURL = serve({ directory: "../dist/" });
 } else {
-    loadURL = serve({directory: "./dist/"});
+    loadURL = serve({ directory: "./dist/" });
 }
 
 function createWindow() {
@@ -15,6 +15,10 @@ function createWindow() {
 
     loadURL(win);
 }
+
+app.on("window-all-closed", function() {
+    app.quit();
+});
 
 app.on("ready", () => {
     createWindow();
