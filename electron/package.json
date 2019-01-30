@@ -7,8 +7,7 @@
   "scripts": {
       "start": "electron ."
   },
-  "dependencies": {
-    "electron": "^4.0.2",
-    "electron-serve": "^0.2.0"
+  "devDependencies": {
+    "electron": "^4.0.2"
   }
 }

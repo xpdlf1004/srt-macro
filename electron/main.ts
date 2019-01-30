@@ -2,7 +2,12 @@ const { app, BrowserWindow, protocol } = require("electron");
 require("../server/app");
 const serve = require('electron-serve');
 
-const loadURL = serve({directory: "../dist/"});
+let loadURL;
+if (process.env.NODE_ENV) {
+    loadURL = serve({directory: "../dist/"});
+} else {
+    loadURL = serve({directory: "./dist/"});
+}
 
 function createWindow() {
     // Create the browser window.

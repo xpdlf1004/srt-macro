@@ -45,3 +45,12 @@ yarn run test:unit
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Build
+
+Run `./build-prepare.sh`
+
+Run `cd build`
+
+Run `yarn run`
+
