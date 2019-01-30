@@ -2,23 +2,46 @@ import Vue from "vue";
 import Vuex from "vuex";
 import * as APIClient from "./api-client";
 import { Schedule } from "../common/schedule";
+import * as _ from "lodash";
 
 Vue.use(Vuex);
 
 export interface RootState {
     isAuthenticated?: boolean;
-    schedules: Schedule[];
+    schedules: {
+        [id: string]: Schedule;
+    };
 }
 
 function initialState() {
     return {
         isAuthenticated: undefined,
-        schedules: []
+        schedules: {}
     };
 }
 
 export default new Vuex.Store<RootState>({
     state: initialState,
+    getters: {
+        schedules: state => {
+            return _.chain(state.schedules)
+                .values()
+                .filter(
+                    (schedule: Schedule) =>
+                        schedule.status === "error" ||
+                        schedule.status === "running"
+                )
+                .value();
+        },
+        waitPaymentSchedules: state => {
+            return _.chain(state.schedules)
+                .values()
+                .filter(
+                    (schedule: Schedule) => schedule.status === "waitForPay"
+                )
+                .value();
+        }
+    },
     mutations: {
         LOGIN(state) {
             state.isAuthenticated = true;
@@ -32,8 +55,8 @@ export default new Vuex.Store<RootState>({
                 state[key] = s[key];
             });
         },
-        ADD_SCHEDULE(state, schedule: Schedule) {
-            state.schedules = [...state.schedules, schedule];
+        UPDATE_SCHEDULE(state, schedule: Schedule) {
+            state.schedules = { ...state.schedules, [schedule.id]: schedule };
         }
     },
     actions: {

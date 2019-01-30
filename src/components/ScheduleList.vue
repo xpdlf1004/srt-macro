@@ -3,7 +3,7 @@
     <div class="schedule-item-cont">
       <ScheduleItem
         class="schedule-item"
-        v-for="schedule in scheduleList"
+        v-for="schedule in $store.getters.schedules"
         :schedule="schedule"
         :key="schedule.id"
       />
@@ -28,9 +28,7 @@ import { Schedule } from "../../common/schedule";
     ScheduleItem
   }
 })
-export default class ScheduleList extends Vue {
-  scheduleList: Schedule[] = this.$store.state.schedules;
-}
+export default class ScheduleList extends Vue {}
 </script>
 <style lang="scss" scoped>
 .title-cont {

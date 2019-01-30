@@ -43,6 +43,7 @@ import * as Station from "../../common/station";
 import moment from "moment";
 import * as _ from "lodash";
 import { Schedule } from "../../common/schedule";
+import uuid from "uuid/v1";
 
 @Component({
   components: {}
@@ -81,6 +82,7 @@ export default class AddScheduleTable extends Vue {
   ];
   handleAddSeat(data: Train, seatType: "normal" | "special") {
     const newSchedule: Schedule = {
+      id: uuid(),
       startPoint: this.selectedFormData.startPoint,
       startStation: this.startStation,
       destPoint: this.selectedFormData.destPoint,
@@ -91,9 +93,10 @@ export default class AddScheduleTable extends Vue {
       seatType,
       adultCount: this.selectedFormData.adultCount,
       childCount: this.selectedFormData.childCount,
+      status: "running",
       trainId: data.trainId
     };
-    this.$store.commit("ADD_SCHEDULE", newSchedule);
+    this.$store.commit("UPDATE_SCHEDULE", newSchedule);
     this.$toasted.show("새로운 일정이 등록되었습니다.", {
       theme: "outline",
       position: "bottom-center",

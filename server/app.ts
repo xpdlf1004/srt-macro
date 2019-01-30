@@ -167,8 +167,6 @@ app.post("/reserveTrain", async (req, res, next) => {
         destPoint: string;
         seatType: string;
     }) {
-        console.log(params);
-        console.log(req.session!.JSESSIONID_ETK);
         return axios.post(
             "https://etk.srail.co.kr/hpg/hra/01/checkUserInfo.do?pageId=TK0101010000",
             qs.stringify({

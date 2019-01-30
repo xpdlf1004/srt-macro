@@ -20,26 +20,42 @@ export default class App extends Vue {
   worker: any;
   mounted() {
     console.info("Start macro worker!");
-    this.worker = setInterval(() => {
+    let working = false;
+    this.worker = setInterval(async () => {
+      if (working) {
+        return;
+      }
       if (!this.$store.state.isAuthenticated) {
         return;
       }
-      const schedules: Schedule[] = this.$store.state.schedules;
+      const schedules: Schedule[] = this.$store.getters.schedules;
       if (schedules.length === 0) {
         return;
       }
       console.info(`${schedules.length}개의 일정을 조회합니다.`);
-
-      APIClient.reserveTrain({
-        startTime: schedules[0].startTime,
-        startPoint: schedules[0].startPoint,
-        destPoint: schedules[0].destPoint,
-        date: schedules[0].date,
-        seatType: schedules[0].seatType,
-        trainId: schedules[0].trainId
-      })
-        .then(response => console.log(response))
-        .catch(e => console.error(e));
+      await schedules.reduce(async (chain, schedule) => {
+        try {
+          const response = await APIClient.reserveTrain({
+            startTime: schedule.startTime,
+            startPoint: schedule.startPoint,
+            destPoint: schedule.destPoint,
+            date: schedule.date,
+            seatType: schedule.seatType,
+            trainId: schedule.trainId
+          });
+          if (response === "ok") {
+            console.log("티켓 예약 완료!");
+            schedule.ticketingTimestamp = +new Date();
+            schedule.status = "waitForPay";
+            this.$store.commit("UPDATE_SCHEDULE", schedule);
+          } else {
+            console.log(response);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }, Promise.resolve());
+      working = false;
     }, 5000);
   }
   destoryed() {

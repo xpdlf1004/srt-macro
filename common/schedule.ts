@@ -1,4 +1,5 @@
 export interface Schedule {
+    id: string;
     startPoint: string;
     startStation: string;
     destPoint: string;
@@ -10,5 +11,7 @@ export interface Schedule {
     adultCount: number;
     childCount: number;
     error?: string;
+    ticketingTimestamp?: number;
+    status: "error" | "waitForPay" | "running";
     trainId: string;
 }
