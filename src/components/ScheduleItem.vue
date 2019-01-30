@@ -31,7 +31,10 @@
         v-else-if="schedule.status==='running'"
         class="loader"
       />
-      <span v-else>{{schedule.error || "에러"}}</span>
+      <span
+        class="error-text"
+        v-else
+      >{{schedule.error || "에러"}}</span>
     </div>
   </div>
 </template>
@@ -77,6 +80,9 @@ export default class ScheduleItem extends Vue {
     position: absolute;
     right: 12px;
     bottom: 8px;
+    font-size: 0.8rem;
+  }
+  .error-text {
     font-size: 0.8rem;
   }
 }
