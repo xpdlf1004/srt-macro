@@ -5,9 +5,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-      "start": "electron ."
+    "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^4.0.2"
+    "electron": "^4.0.3"
+  },
+  "dependencies": {
+    "electron-serve": "^0.2.0"
   }
 }

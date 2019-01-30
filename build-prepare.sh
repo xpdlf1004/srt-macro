@@ -1,4 +1,5 @@
 
+#!/bin/bash
 # set -e : exit when one of the below commands are failed
 set -e
 
