@@ -11,7 +11,7 @@ export interface Schedule {
     adultCount: number;
     childCount: number;
     error?: string;
-    ticketingTimestamp?: number;
+    ticketingExpiredTime?: number;
     status: "error" | "waitForPay" | "running";
     trainId: string;
 }

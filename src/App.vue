@@ -10,6 +10,7 @@ import Header from "@/components/Header.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import * as APIClient from "./api-client";
 import { Schedule } from "common/schedule";
+import moment from "moment";
 
 @Component({
   components: {
@@ -33,27 +34,32 @@ export default class App extends Vue {
         return;
       }
       console.info(`${schedules.length}개의 일정을 조회합니다.`);
-      await schedules.reduce(async (chain, schedule) => {
-        try {
-          const response = await APIClient.reserveTrain({
-            startTime: schedule.startTime,
-            startPoint: schedule.startPoint,
-            destPoint: schedule.destPoint,
-            date: schedule.date,
-            seatType: schedule.seatType,
-            trainId: schedule.trainId
-          });
-          if (response === "ok") {
-            console.log("티켓 예약 완료!");
-            schedule.ticketingTimestamp = +new Date();
-            schedule.status = "waitForPay";
-            this.$store.commit("UPDATE_SCHEDULE", schedule);
-          } else {
-            console.log(response);
+      await schedules.reduce((chain, schedule) => {
+        return chain.then(async () => {
+          console.log(schedule.date);
+          try {
+            const response = await APIClient.reserveTrain({
+              startTime: schedule.startTime,
+              startPoint: schedule.startPoint,
+              destPoint: schedule.destPoint,
+              date: schedule.date,
+              seatType: schedule.seatType,
+              trainId: schedule.trainId
+            });
+            if (response === "ok") {
+              console.log("티켓 예약 완료!");
+              schedule.ticketingExpiredTime = moment()
+                .add(20, "minute")
+                .milliseconds();
+              schedule.status = "waitForPay";
+              this.$store.commit("UPDATE_SCHEDULE", schedule);
+            } else {
+              console.log(response);
+            }
+          } catch (e) {
+            console.error(e);
           }
-        } catch (e) {
-          console.error(e);
-        }
+        });
       }, Promise.resolve());
       working = false;
     }, 5000);
