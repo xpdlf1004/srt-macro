@@ -16,7 +16,9 @@ export interface RootState {
 function initialState() {
     return {
         isAuthenticated: undefined,
-        schedules: {}
+        schedules: localStorage.getItem("schedule")
+            ? JSON.parse(localStorage.getItem("schedule")!)
+            : {}
     };
 }
 
@@ -50,13 +52,16 @@ export default new Vuex.Store<RootState>({
             state.isAuthenticated = false;
         },
         CLEAR(state: any) {
+            localStorage.clear();
             const s = initialState() as any;
             Object.keys(s).forEach(key => {
                 state[key] = s[key];
             });
         },
         UPDATE_SCHEDULE(state, schedule: Schedule) {
-            state.schedules = { ...state.schedules, [schedule.id]: schedule };
+            const newSchedule = { ...state.schedules, [schedule.id]: schedule };
+            localStorage.setItem("schedule", JSON.stringify(newSchedule));
+            state.schedules = newSchedule;
         }
     },
     actions: {
