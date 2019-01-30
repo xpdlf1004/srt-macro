@@ -286,25 +286,21 @@ app.post("/reserveTrain", async (req, res, next) => {
         } else if (
             confirmReservationInfoResponse.data.includes("열차구간정보오류")
         ) {
-            res.status(HttpStatus.BAD_REQUEST).send("invalid param");
+            res.status(HttpStatus.OK).send("잘못된 열차 설정");
         } else if (
             confirmReservationInfoResponse.data.includes(
                 "20분 이내 열차는 예약하실 수 없습니다."
             )
         ) {
-            res.status(HttpStatus.BAD_REQUEST).send("invalid time");
+            res.status(HttpStatus.OK).send("잘못된 시간 설정");
         } else if (
             confirmReservationInfoResponse.data.includes(
                 "10분 내에 결제하지 않으면 예약이 취소됩니다."
             )
         ) {
             res.status(HttpStatus.OK).send("ok");
-        } else if (
-            confirmReservationInfoResponse.data.includes(
-                "입력하신 값을 다시 확인하여 주시기 바랍니다."
-            )
-        ) {
-            res.status(HttpStatus.BAD_GATEWAY).send("unknown error");
+        } else if (confirmReservationInfoResponse.data.includes("ERROR")) {
+            res.status(HttpStatus.OK).send("ERROR");
         } else {
             next();
         }

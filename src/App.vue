@@ -73,11 +73,24 @@ export default class App extends Vue {
                 .unix();
               schedule.status = "waitForPay";
               this.$store.commit("UPDATE_SCHEDULE", schedule);
+            } else if (response === "full") {
+              console.log("좌석 없음");
             } else {
-              console.log(response);
+              console.error(response);
+              schedule.error = "response";
+              this.$store.commit("UPDATE_SCHEDULE", schedule);
             }
           } catch (e) {
             console.error(e);
+            this.$toasted.show(
+              "세션이 만료 되었습니다. 다시 로그인 해주세요.",
+              {
+                theme: "outline",
+                position: "bottom-center",
+                duration: 3000
+              }
+            );
+            this.$store.commit("LOGOUT");
           }
         });
       }, Promise.resolve());
