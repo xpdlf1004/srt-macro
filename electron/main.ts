@@ -16,7 +16,7 @@ function createWindow() {
     loadURL(win);
 }
 
-app.on("window-all-closed", function() {
+app.on("window-all-closed", () => {
     app.quit();
 });
 

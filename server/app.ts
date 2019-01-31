@@ -9,7 +9,6 @@ import * as cors from "cors";
 import * as HttpStatus from "http-status-codes";
 import { Train } from "../common/train";
 import * as moment from "moment";
-const FileStore = require("session-file-store")(session);
 
 const app = express();
 
@@ -24,14 +23,12 @@ app.use(bodyParser.json());
 
 app.set("trust proxy", 1); // trust first proxy
 
-const fileStoreOptions = {};
 app.use(
     session({
         secret: "keyboard cat",
         resave: false,
         saveUninitialized: true,
-        cookie: { httpOnly: false },
-        store: new FileStore(fileStoreOptions)
+        cookie: { httpOnly: false }
     })
 );
 

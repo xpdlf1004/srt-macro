@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "electron ."
+    "start": "NODE_ENV=dev electron ."
   },
   "devDependencies": {
     "electron": "^4.0.3"

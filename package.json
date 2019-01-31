@@ -30,7 +30,6 @@
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "query-string": "^6.2.0",
-    "session-file-store": "^1.2.0",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
     "vue": "^2.5.21",
