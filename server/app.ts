@@ -212,7 +212,7 @@ app.post("/reserveTrain", async (req, res, next) => {
                 psgTpCd1: "1",
                 psgInfoPerPrnb1: "1", // 인원수 인듯 ?
                 psgTpCd2: "",
-                psgInfoPerPrnb2: "",
+                psgInfoPerPrnb2: "", // 어린이 일듯?
                 psgTpCd3: "",
                 psgInfoPerPrnb3: "",
                 psgTpCd4: "",

@@ -30,7 +30,7 @@
       >
         <b-button
           variant="primary"
-          @click="handleAddSeat(data.item, 'noraml')"
+          @click="handleAddSeat(data.item, 'normal')"
         >일정등록</b-button>
       </template>
     </b-table>

@@ -9,11 +9,7 @@
             v-model="form.startPoint"
             class="large-select mr-3"
           ></b-form-select>
-          <font-awesome-icon
-            icon="exchange-alt"
-            class="change-icon"
-            @click="onChangePoint"
-          />
+          <font-awesome-icon icon="exchange-alt" class="change-icon" @click="onChangePoint"/>
           <b-form-select
             :options="stations"
             required
@@ -22,12 +18,7 @@
           ></b-form-select>
         </div>
         <div class="d-inline-block mr-3">
-          <b-form-select
-            :options="dateOptions"
-            required
-            v-model="form.date"
-            class="large-select"
-          ></b-form-select>
+          <b-form-select :options="dateOptions" required v-model="form.date" class="large-select"></b-form-select>
         </div>
         <div class="d-inline-block">
           <b-form-select
@@ -39,7 +30,7 @@
           <span class="time-label ml-2 align-middle">시</span>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="mt-4" v-if="false">
         <div class="d-inline-block">
           <span class="align-middle mr-2">어른</span>
           <b-form-select
@@ -61,13 +52,7 @@
       </div>
     </div>
     <div class="text-center mt-3">
-      <b-button
-        type="submit"
-        variant="primary"
-        class="submit-btn"
-      >
-        조회하기
-      </b-button>
+      <b-button type="submit" variant="primary" class="submit-btn">조회하기</b-button>
     </div>
   </b-form>
 </template>
