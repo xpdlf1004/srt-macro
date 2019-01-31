@@ -6,16 +6,34 @@
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+## Development
+
+### Run server
 
 ```
-yarn run serve
+yarn run start:server
 ```
 
-### Compiles and minifies for production
+### Run client
+
+```
+yarn run start:client
+```
+
+## Production
+
+### Compiles and minifies client for production
 
 ```
 yarn run build
+```
+
+### Electron build
+
+```
+sh ./build-prepare.sh
+cd build
+yarn run start
 ```
 
 ### Run your tests
@@ -45,12 +63,3 @@ yarn run test:unit
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-## Build
-
-Run `./build-prepare.sh`
-
-Run `cd build`
-
-Run `yarn run`
-
