@@ -7,7 +7,7 @@ yarn run build
 yarn tsc -p ./tsconfig.server.json
 
 mkdir -p build/electron
-cp electron/main.ts build/electron/
+cp electron/*.ts build/electron/
 yarn tsc build/electron/main.ts
 
 cp ./build.package.json ./build/package.json
