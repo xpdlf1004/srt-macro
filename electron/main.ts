@@ -1,4 +1,4 @@
-const { app, BrowserWindow, protocol } = require("electron");
+const { app, BrowserWindow } = require("electron");
 require("../server/app");
 const serve = require("electron-serve");
 
@@ -23,3 +23,5 @@ app.on("window-all-closed", () => {
 app.on("ready", () => {
     createWindow();
 });
+
+import "./applicationMenu";

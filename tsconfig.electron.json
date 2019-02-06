@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "lib": ["es2015"],
+      "rootDir": ".",
+      "noImplicitReturns": true,
+      "noImplicitThis": true,
+      "noImplicitAny": false,
+      "importHelpers": true,
+      "outDir": "build",
+      "forceConsistentCasingInFileNames": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "strictNullChecks": true,
+      "noUnusedLocals": true,
+    },
+    "include": ["server/**/*", "electron/**/*"],
+    "exclude": ["src/**/*", "node_modules"]
+  }
+  
