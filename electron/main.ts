@@ -3,9 +3,11 @@ require("../server/app");
 const serve = require("electron-serve");
 
 let loadURL;
-if (process.env.NODE_ENV) {
+if (!app.isPackaged) {
+    console.log("Run in development");
     loadURL = serve({ directory: "../dist/" });
 } else {
+    console.log("Run int package");
     loadURL = serve({ directory: "./dist/" });
 }
 
