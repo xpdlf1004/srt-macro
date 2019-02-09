@@ -1,4 +1,6 @@
-const {BrowserWindow, Menu, app, shell, dialog} = require('electron')
+const electron = require('electron')
+const {BrowserWindow, Menu, app, shell, dialog} = electron;
+const ElectronNoti = electron.Notification;
 
 let template: any[] = [{
   label: 'Edit',
@@ -97,6 +99,23 @@ let template: any[] = [{
       app.emit('activate')
     }
   }]
+}, {
+    label: 'Test',
+    submenu: [{
+        label: 'Noti test',
+        click: () => {
+            if (ElectronNoti.isSupported()) {
+                console.log("Notification is supported");
+            } else {
+                console.log("Notification is not supported");
+            }
+            const noti = new ElectronNoti({
+                title: "MyNotiTitle",
+                body: "My notification body"
+            });
+            noti.show();
+        }
+    }]
 }]
 
 function findReopenMenuItem () {
@@ -114,6 +133,10 @@ function findReopenMenuItem () {
     }
   })
   return reopenMenuItem
+}
+
+if (process.platform === "win32") {
+    app.setAppUserModelId(process.execPath);
 }
 
 if (process.platform === 'darwin') {
