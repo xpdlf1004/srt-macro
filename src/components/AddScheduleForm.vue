@@ -30,7 +30,7 @@
           <span class="time-label ml-2 align-middle">시</span>
         </div>
       </div>
-      <div class="mt-4" v-if="false">
+      <div class="mt-4">
         <div class="d-inline-block">
           <span class="align-middle mr-2">어른</span>
           <b-form-select

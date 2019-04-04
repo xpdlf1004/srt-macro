@@ -54,7 +54,7 @@ app.post("/login", (req, res, next) => {
                     response.headers["set-cookie"] &&
                     response.headers["set-cookie"].length > 0
                 ) {
-                    const sessionKey = response.headers["set-cookie"][1]
+                    const sessionKey = response.headers["set-cookie"][0]
                         .split(";")[0]
                         .split("JSESSIONID_ETK=")[1];
                     req.session!.JSESSIONID_ETK = sessionKey;
@@ -163,6 +163,8 @@ app.post("/reserveTrain", async (req, res, next) => {
         startPoint: string;
         destPoint: string;
         seatType: string;
+        childCount: number;
+        adultCount: number;
     }) {
         return axios.post(
             "https://etk.srail.co.kr/hpg/hra/01/checkUserInfo.do?pageId=TK0101010000",
@@ -171,7 +173,7 @@ app.post("/reserveTrain", async (req, res, next) => {
                 jobId: "1101",
                 jrnyTpCd: "11",
                 jrnyCnt: "1",
-                totPrnb: "1", // 인원수 인듯?
+                totPrnb: params.childCount + params.adultCount,
                 stndFlg: "N",
                 // trnOrdrNo1: '1', // 기차 순번 Optional
                 jrnySqno1: "001",
@@ -206,10 +208,10 @@ app.post("/reserveTrain", async (req, res, next) => {
                 rqSeatAttCd1: "015",
                 etcSeatAttCd1: "000",
                 psgGridcnt: "1",
-                psgTpCd1: "1",
-                psgInfoPerPrnb1: "1", // 인원수 인듯 ?
-                psgTpCd2: "",
-                psgInfoPerPrnb2: "", // 어린이 일듯?
+                psgTpCd1: params.adultCount > 0 ? "1" : "",
+                psgInfoPerPrnb1: params.adultCount > 0 ? params.adultCount : "", // 인원수 인듯 ?
+                psgTpCd2: params.childCount > 0 ? "5" : "", // 5 (어린이)
+                psgInfoPerPrnb2: params.childCount > 0 ? params.childCount : "", // 어린이 일듯?
                 psgTpCd3: "",
                 psgInfoPerPrnb3: "",
                 psgTpCd4: "",
@@ -260,6 +262,8 @@ app.post("/reserveTrain", async (req, res, next) => {
     const startPoint = req.body.startPoint;
     const destPoint = req.body.destPoint;
     const seatType = req.body.seatType;
+    const childCount = parseInt(req.body.childCount, 10);
+    const adultCount = parseInt(req.body.adultCount, 10);
 
     const dateText = `${moment(date, "YYYY-MM-DD (hhh)").format("YYYYMMDD")}`;
     const startTimeText = `${moment(startTime, "HH:mm").format("HHmm")}00`;
@@ -270,7 +274,9 @@ app.post("/reserveTrain", async (req, res, next) => {
             trainId,
             startPoint,
             destPoint,
-            seatType
+            seatType,
+            childCount,
+            adultCount
         });
         if (checkUserInfoResponse.data.includes("selectLoginForm.do")) {
             res.status(HttpStatus.UNAUTHORIZED).send("invalid token");

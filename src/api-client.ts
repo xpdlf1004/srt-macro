@@ -24,6 +24,8 @@ export function reserveTrain(params: {
     destPoint: string;
     seatType: "normal" | "special";
     trainId: string;
+    childCount: number;
+    adultCount: number;
 }) {
     return post("/reserveTrain", params);
 }

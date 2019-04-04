@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header v-if="$store.state.isAuthenticated" />
-    <router-view />
+    <Header v-if="$store.state.isAuthenticated"/>
+    <router-view/>
   </div>
 </template>
 
@@ -59,7 +59,9 @@ export default class App extends Vue {
               destPoint: schedule.destPoint,
               date: schedule.date,
               seatType: schedule.seatType,
-              trainId: schedule.trainId
+              trainId: schedule.trainId,
+              childCount: schedule.childCount,
+              adultCount: schedule.adultCount
             });
             if (response === "ok") {
               console.log("티켓 예약 완료!");
@@ -95,7 +97,7 @@ export default class App extends Vue {
         });
       }, Promise.resolve());
       working = false;
-    }, 5000);
+    }, 2000);
   }
   destoryed() {
     console.info("Finish macro worker..");
