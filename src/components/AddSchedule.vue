@@ -5,10 +5,7 @@
         <h5>일정 등록</h5>
       </div>
       <AddScheduleForm @onSubmit="onSubmit" />
-      <div
-        class="schedule-table-cont"
-        v-if="trains && selectedFormData"
-      >
+      <div class="schedule-table-cont" v-if="trains && selectedFormData">
         <AddScheduleTable
           :trains="trains"
           :selectedFormData="selectedFormData"
@@ -73,4 +70,3 @@ export default class AddSchedule extends Vue {
   margin-top: 60px;
 }
 </style>
-

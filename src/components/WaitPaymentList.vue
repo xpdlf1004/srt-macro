@@ -10,7 +10,8 @@
       <span
         v-if="$store.getters.waitPaymentSchedules.length === 0"
         class="schedule-item"
-      >결제 대기중인 일정이 없습니다.</span>
+        >결제 대기중인 일정이 없습니다.</span
+      >
     </div>
   </div>
 </template>

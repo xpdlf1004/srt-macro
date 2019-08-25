@@ -29,10 +29,12 @@
               ></b-form-input>
             </div>
           </div>
-          <div :class="
+          <div
+            :class="
               `d-flex user-pw-input-cont align-items-center ${hasError &&
                 'has-error'}`
-            ">
+            "
+          >
             <div class="label-cont">
               <span>비밀번호</span>
             </div>
@@ -47,36 +49,29 @@
               ></b-form-input>
             </div>
           </div>
-          <div
-            class="error-cont"
-            v-if="hasError"
-          >
+          <div class="error-cont" v-if="hasError">
             <span>
               {{ `${selectedTypeLabel} 또는 비밀번호를 확인하세요.` }}
             </span>
           </div>
           <div class="login-btn-cont">
-            <b-button
-              type="submit"
-              variant="primary"
-            >
+            <b-button type="submit" variant="primary">
               <span v-if="!loading">로그인</span>
-              <div
-                v-if="loading"
-                class="loader reverse"
-              />
+              <div v-if="loading" class="loader reverse" />
             </b-button>
           </div>
           <div class="link-cont">
             <a
               href="https://etk.srail.co.kr/cmc/02/selectJoinInfo.do?pageId=TK0702000000"
               target="_blank"
-            >회원가입</a>
+              >회원가입</a
+            >
             또는
             <a
               href="https://etk.srail.co.kr/cmc/01/selectCfrmInfo.do?pageId=TK0703000000"
               target="_blank"
-            >회원찾기</a>
+              >회원찾기</a
+            >
           </div>
         </b-form>
       </div>

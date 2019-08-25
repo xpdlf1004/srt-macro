@@ -38,13 +38,17 @@ export default new Router({
                     path: "/",
                     name: "My schedule",
                     component: () =>
-                        import(/* webpackChunkName: "schedule" */ "./components/MySchedule.vue")
+                        import(
+                            /* webpackChunkName: "schedule" */ "./components/MySchedule.vue"
+                        )
                 },
                 {
                     path: "add",
                     name: "Add schedule",
                     component: () =>
-                        import(/* webpackChunkName: "schedule" */ "./components/AddSchedule.vue")
+                        import(
+                            /* webpackChunkName: "schedule" */ "./components/AddSchedule.vue"
+                        )
                 }
             ]
         },

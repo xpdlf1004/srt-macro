@@ -4,13 +4,13 @@
       <div class="title-cont">
         <h5>등록된 일정</h5>
       </div>
-      <ScheduleList/>
+      <ScheduleList />
     </div>
     <div class="section">
       <div class="title-cont">
         <h5>결제 대기중 일정</h5>
       </div>
-      <WaitPaymentList/>
+      <WaitPaymentList />
     </div>
   </div>
 </template>
@@ -27,5 +27,4 @@ import WaitPaymentList from "@/components/WaitPaymentList.vue";
 })
 export default class AddSchedule extends Vue {}
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

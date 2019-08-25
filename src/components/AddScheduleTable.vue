@@ -1,37 +1,26 @@
 <template>
   <div class="Add-schedule-table">
-    <div class="table-header">{{startStation}}
+    <div class="table-header">
+      {{ startStation }}
       <font-awesome-icon icon="arrow-right" />
-      {{destStation}}<span class="mr-3" />{{selectedDate}}</div>
-    <b-table
-      :items="trains"
-      :fields="fields"
-    >
-      <template
-        slot="startTime"
-        slot-scope="data"
-      >{{startStation}}<br />{{data.item.startTime}}</template>
-      <template
-        slot="destTime"
-        slot-scope="data"
-      >{{destStation}}<br />{{data.item.destTime}}</template>
-      <template
-        slot="special"
-        slot-scope="data"
+      {{ destStation }}<span class="mr-3" />{{ selectedDate }}
+    </div>
+    <b-table :items="trains" :fields="fields">
+      <template slot="startTime" slot-scope="data"
+        >{{ startStation }}<br />{{ data.item.startTime }}</template
       >
-        <b-button
-          variant="primary"
-          @click="handleAddSeat(data.item, 'special')"
-        >일정등록</b-button>
+      <template slot="destTime" slot-scope="data"
+        >{{ destStation }}<br />{{ data.item.destTime }}</template
+      >
+      <template slot="special" slot-scope="data">
+        <b-button variant="primary" @click="handleAddSeat(data.item, 'special')"
+          >일정등록</b-button
+        >
       </template>
-      <template
-        slot="normal"
-        slot-scope="data"
-      >
-        <b-button
-          variant="primary"
-          @click="handleAddSeat(data.item, 'normal')"
-        >일정등록</b-button>
+      <template slot="normal" slot-scope="data">
+        <b-button variant="primary" @click="handleAddSeat(data.item, 'normal')"
+          >일정등록</b-button
+        >
       </template>
     </b-table>
   </div>

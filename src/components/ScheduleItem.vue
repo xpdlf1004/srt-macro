@@ -21,20 +21,16 @@
     </div>
     <div class="right-bottom">
       <a
-        v-if="schedule.status==='waitForPay'"
+        v-if="schedule.status === 'waitForPay'"
         href="https://etk.srail.co.kr/hpg/hra/02/selectReservationList.do?pageId=TK0102010000"
         target="_blank"
       >
-        <div class="text-right"><span>{{remainingTime}} 까지</span><br /><span>결제하기</span></div>
+        <div class="text-right">
+          <span>{{ remainingTime }} 까지</span><br /><span>결제하기</span>
+        </div>
       </a>
-      <div
-        v-else-if="schedule.status==='running'"
-        class="loader"
-      />
-      <span
-        class="error-text"
-        v-else
-      >{{schedule.error || "에러"}}</span>
+      <div v-else-if="schedule.status === 'running'" class="loader" />
+      <span class="error-text" v-else>{{ schedule.error || "에러" }}</span>
     </div>
   </div>
 </template>

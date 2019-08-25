@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header v-if="$store.state.isAuthenticated"/>
-    <router-view/>
+    <Header v-if="$store.state.isAuthenticated" />
+    <router-view />
   </div>
 </template>
 
@@ -66,9 +66,7 @@ export default class App extends Vue {
             if (response === "ok") {
               console.log("티켓 예약 완료!");
               Noti.notifyMe(
-                `${schedule.date} ${
-                  schedule.startTime
-                } 열차 예약 성공 20분안에 결제하세요.`
+                `${schedule.date} ${schedule.startTime} 열차 예약 성공 20분안에 결제하세요.`
               );
               schedule.ticketingExpiredTime = moment()
                 .add(20, "minute")

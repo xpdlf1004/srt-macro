@@ -8,11 +8,10 @@
         :key="schedule.id"
       />
       <router-link to="/schedule/add">
-        <div class="add-btn align-items-center justify-content-center schedule-item">
-          <font-awesome-icon
-            icon="plus"
-            class="mr-1"
-          />일정 추가
+        <div
+          class="add-btn align-items-center justify-content-center schedule-item"
+        >
+          <font-awesome-icon icon="plus" class="mr-1" />일정 추가
         </div>
       </router-link>
     </div>
