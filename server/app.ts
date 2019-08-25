@@ -54,7 +54,10 @@ app.post("/login", (req, res, next) => {
                     response.headers["set-cookie"] &&
                     response.headers["set-cookie"].length > 0
                 ) {
-                    const sessionKey = response.headers["set-cookie"][0]
+                    const setCookieHeader = response.headers["set-cookie"].find(
+                        item => item.includes("JSESSIONID_ETK")
+                    );
+                    const sessionKey = setCookieHeader
                         .split(";")[0]
                         .split("JSESSIONID_ETK=")[1];
                     req.session!.JSESSIONID_ETK = sessionKey;
