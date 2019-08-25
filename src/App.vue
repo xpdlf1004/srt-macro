@@ -91,6 +91,7 @@ export default class App extends Vue {
               }
             );
             this.$store.commit("LOGOUT");
+            this.$router.push("/login");
           }
         });
       }, Promise.resolve());
