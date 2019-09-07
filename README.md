@@ -1,5 +1,8 @@
 # srt-macro
 
+## Description
+SRT macro uses Nodejs version 12.10
+
 ## Project setup
 
 ```
