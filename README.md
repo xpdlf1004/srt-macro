@@ -36,7 +36,7 @@ yarn run build
 ```
 sh ./build-prepare.sh
 cd build
-yarn run start
+yarn run build:win OR yarn run build:osx OR yarn run build:linux
 ```
 
 ### Run your tests
