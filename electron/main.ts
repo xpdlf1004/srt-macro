@@ -7,7 +7,7 @@ if (!app.isPackaged) {
     console.log("Run in development");
     loadURL = serve({ directory: "../dist/" });
 } else {
-    console.log("Run int package");
+    console.log("Run in package");
     loadURL = serve({ directory: "./dist/" });
 }
 
