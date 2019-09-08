@@ -15,7 +15,11 @@ function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({ width: 1280, height: 800 });
 
-    loadURL(win);
+    setTimeout(() => {
+        // Wait until electron-serve register the "app://" scheme.
+        // See https://github.com/sindresorhus/electron-serve/issues/18
+        loadURL(win);
+    }, 1000);
 }
 
 app.on("window-all-closed", () => {
