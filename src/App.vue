@@ -83,15 +83,13 @@ export default class App extends Vue {
           } catch (e) {
             console.error(e);
             this.$toasted.show(
-              "세션이 만료 되었습니다. 다시 로그인 해주세요.",
+              "서버 에러 발생.",
               {
                 theme: "outline",
                 position: "bottom-center",
                 duration: 3000
               }
             );
-            this.$store.commit("LOGOUT");
-            this.$router.push("/login");
           }
         });
       }, Promise.resolve());
