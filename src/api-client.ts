@@ -1,11 +1,12 @@
 import axios from "axios";
 import qs from "query-string";
+import { Train } from "../common/train";
 
 axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
 
 export function login(params: { userNumber: string; userPassword: string }) {
-    return post(`/login`, params);
+    return axios.post("/login", params);
 }
 
 export function getTrains(params: {
@@ -14,7 +15,7 @@ export function getTrains(params: {
     requestDate: string;
     requestTime: string;
 }) {
-    return get(`/trainList?${qs.stringify(params)}`);
+    return axios.get<Train[]>(`/trainList?${qs.stringify(params)}`);
 }
 
 export function reserveTrain(params: {
@@ -27,39 +28,5 @@ export function reserveTrain(params: {
     childCount: number;
     adultCount: number;
 }) {
-    return post("/reserveTrain", params);
-}
-
-function post(path: string, body?: any) {
-    return axios
-        .post(path, body)
-        .catch(error => {
-            return Promise.reject(error);
-        })
-        .then(r => {
-            if (r.status >= 400) {
-                console.log(`${"POST"} ${path}: ${r.statusText}`);
-                return Promise.reject(
-                    new Error(`${"POST"} ${path}: ${r.statusText}`)
-                );
-            }
-            return r.data;
-        });
-}
-
-function get(path: string) {
-    return axios
-        .get(path)
-        .catch(error => {
-            return Promise.reject(error);
-        })
-        .then(r => {
-            if (r.status >= 400) {
-                console.log(`${"GET"} ${path}: ${r.statusText}`);
-                return Promise.reject(
-                    new Error(`${"GET"} ${path}: ${r.statusText}`)
-                );
-            }
-            return r.data;
-        });
+    return axios.post<string>("/reserveTrain", params);
 }

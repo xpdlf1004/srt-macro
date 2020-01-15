@@ -12,6 +12,7 @@ import * as APIClient from "./api-client";
 import { Schedule } from "common/schedule";
 import moment from "moment";
 import * as Noti from "./notification";
+import * as HttpStatus from "http-status-codes";
 
 @Component({
   components: {
@@ -63,7 +64,7 @@ export default class App extends Vue {
               childCount: schedule.childCount,
               adultCount: schedule.adultCount
             });
-            if (response === "ok") {
+            if (response.data === "ok") {
               console.log("티켓 예약 완료!");
               Noti.notifyMe(
                 `${schedule.date} ${schedule.startTime} 열차 예약 성공 20분안에 결제하세요.`
@@ -73,7 +74,7 @@ export default class App extends Vue {
                 .unix();
               schedule.status = "waitForPay";
               this.$store.commit("UPDATE_SCHEDULE", schedule);
-            } else if (response === "full") {
+            } else if (response.data === "full") {
               console.log("좌석 없음");
             } else {
               console.error(response);
@@ -81,17 +82,21 @@ export default class App extends Vue {
               this.$store.commit("UPDATE_SCHEDULE", schedule);
             }
           } catch (e) {
-            console.error(e);
-            this.$toasted.show(
-              "세션이 만료 되었습니다. 다시 로그인 해주세요.",
-              {
+            if (e.response && e.response.status === HttpStatus.UNAUTHORIZED) {
+              this.$toasted.show("세션이 만료되었습니다. 다시 로그인 하세요.", {
                 theme: "outline",
                 position: "bottom-center",
                 duration: 3000
-              }
-            );
-            this.$store.commit("LOGOUT");
-            this.$router.push("/login");
+              });
+              this.$store.commit("LOGOUT");
+              this.$router.push("/login");
+            } else {
+              this.$toasted.show(e.message, {
+                theme: "outline",
+                position: "bottom-center",
+                duration: 3000
+              });
+            }
           }
         });
       }, Promise.resolve());

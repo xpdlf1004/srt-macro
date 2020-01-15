@@ -6,10 +6,7 @@
       </div>
       <AddScheduleForm @onSubmit="onSubmit" />
       <div class="schedule-table-cont" v-if="trains && selectedFormData">
-        <AddScheduleTable
-          :trains="trains"
-          :selectedFormData="selectedFormData"
-        />
+        <AddScheduleTable :trains="trains" :selectedFormData="selectedFormData" />
       </div>
     </div>
   </div>
@@ -22,6 +19,7 @@ import * as Station from "../../common/station";
 import AddScheduleForm from "./AddScheduleForm.vue";
 import AddScheduleTable from "./AddScheduleTable.vue";
 import * as APIClient from "../api-client";
+import { Train } from "../../common/train";
 
 @Component({
   components: {
@@ -30,7 +28,7 @@ import * as APIClient from "../api-client";
   }
 })
 export default class AddSchedule extends Vue {
-  trains = null;
+  trains: Train[] | null = null;
   selectedFormData: {
     startPoint: string;
     destPoint: string;
@@ -57,7 +55,7 @@ export default class AddSchedule extends Vue {
       requestTime: data.startTime
     })
       .then(response => {
-        this.trains = response;
+        this.trains = response.data;
       })
       .catch(error => {
         console.error(error);
