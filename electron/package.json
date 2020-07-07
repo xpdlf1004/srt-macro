@@ -8,7 +8,7 @@
     "start": "NODE_ENV=dev electron ."
   },
   "devDependencies": {
-    "electron": "^4.0.3"
+    "electron": "^7.2.4"
   },
   "dependencies": {
     "electron-serve": "^0.2.0"
