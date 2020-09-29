@@ -9,7 +9,7 @@
     "outDir": "build",
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "noUnusedLocals": true,
   },
   "include": ["server/**/*", "common/**/*"],

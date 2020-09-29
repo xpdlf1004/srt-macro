@@ -6,7 +6,10 @@
       </div>
       <AddScheduleForm @onSubmit="onSubmit" />
       <div class="schedule-table-cont" v-if="trains && selectedFormData">
-        <AddScheduleTable :trains="trains" :selectedFormData="selectedFormData" />
+        <AddScheduleTable
+          :trains="trains"
+          :selectedFormData="selectedFormData"
+        />
       </div>
     </div>
   </div>

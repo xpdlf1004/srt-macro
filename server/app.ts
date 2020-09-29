@@ -35,12 +35,20 @@ app.use(
 app.post("/login", (req, res, next) => {
     axios
         .post(
-            "https://etk.srail.co.kr/cmc/01/selectLoginInfo.do?pageId=TK0701000000",
+            "https://etk.srail.kr/cmc/01/selectLoginInfo.do?pageId=TK0701000000",
             qs.stringify({
+                rsvTpCd: "",
+                goUrl: "",
+                from: "",
                 srchDvNm: req.body.userNumber,
                 hmpgPwdCphd: req.body.userPassword,
-                srchDvCd: "1"
-            })
+                srchDvCd: 1
+            }),
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }
         )
         .then(response => {
             if (
@@ -82,7 +90,7 @@ app.get("/trainList", (req, res, next) => {
     const requestTime = req.query.requestTime;
     axios
         .post(
-            "https://etk.srail.co.kr/hpg/hra/01/selectScheduleList.do?pageId=TK0101010000",
+            "https://etk.srail.kr/hpg/hra/01/selectScheduleList.do?pageId=TK0101010000",
             qs.stringify({
                 dptRsStnCd: startStation,
                 arvRsStnCd: destStation,
@@ -102,15 +110,20 @@ app.get("/trainList", (req, res, next) => {
                 psgInfoPerPrnb3: "0",
                 locSeatAttCd1: "000",
                 rqSeatAttCd1: "015",
-                trnGpCd: "300"
-            })
+                trnGpCd: "109"
+            }),
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }
         )
         .then(response => {
             const $ = cheerio.load(response.data);
             const trainList: Train[] = [];
-            $("#result-form table tbody tr").each((trIndex, trElem) => {
+            $("#result-form .tbl_wrap table tbody tr").each((trIndex, trElem) => {
                 const tdElem = $(trElem).find("td");
-                if (tdElem.length === 11) {
+                if (tdElem.length === 12){
                     const trainId = $(tdElem[2])
                         .text()
                         .trim();
@@ -124,7 +137,7 @@ app.get("/trainList", (req, res, next) => {
                         .trim();
                     const destTimeIndex = destTimeText.match(/[0-9]/)!.index;
                     const destTime = destTimeText.slice(destTimeIndex);
-                    const duration = $(tdElem[10])
+                    const duration = $(tdElem[11])
                         .text()
                         .trim();
                     trainList.push({
@@ -170,7 +183,7 @@ app.post("/reserveTrain", async (req, res, next) => {
         adultCount: number;
     }) {
         return axios.post(
-            "https://etk.srail.co.kr/hpg/hra/01/checkUserInfo.do?pageId=TK0101010000",
+            "https://etk.srail.kr/hpg/hra/01/checkUserInfo.do?pageId=TK0101010000",
             qs.stringify({
                 rsvTpCd: "01",
                 jobId: "1101",
@@ -227,6 +240,7 @@ app.post("/reserveTrain", async (req, res, next) => {
             }),
             {
                 headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
                     Cookie: "JSESSIONID_ETK=" + req.session!.JSESSIONID_ETK
                 }
             }
@@ -235,7 +249,7 @@ app.post("/reserveTrain", async (req, res, next) => {
 
     function requestReservationInfo() {
         return axios.get(
-            "https://etk.srail.co.kr/hpg/hra/02/requestReservationInfo.do?pageId=TK0101030000",
+            "https://etk.srail.kr/hpg/hra/02/requestReservationInfo.do?pageId=TK0101030000",
             {
                 headers: {
                     Cookie: "JSESSIONID_ETK=" + req.session!.JSESSIONID_ETK
@@ -246,7 +260,7 @@ app.post("/reserveTrain", async (req, res, next) => {
 
     function confirmReservationInfo() {
         return axios.get(
-            "https://etk.srail.co.kr/hpg/hra/02/confirmReservationInfo.do?pageId=TK0101030000",
+            "https://etk.srail.kr/hpg/hra/02/confirmReservationInfo.do?pageId=TK0101030000",
             {
                 headers: {
                     Cookie: "JSESSIONID_ETK=" + req.session!.JSESSIONID_ETK
@@ -285,6 +299,7 @@ app.post("/reserveTrain", async (req, res, next) => {
             res.status(HttpStatus.UNAUTHORIZED).send("invalid token");
             return;
         }
+        console.log("hihi")
         await requestReservationInfo();
         const confirmReservationInfoResponse = await confirmReservationInfo();
         if (confirmReservationInfoResponse.data.includes("잔여석없음")) {
@@ -311,6 +326,7 @@ app.post("/reserveTrain", async (req, res, next) => {
             next();
         }
     } catch (e) {
+        console.log(e)
         next(e);
     }
 });

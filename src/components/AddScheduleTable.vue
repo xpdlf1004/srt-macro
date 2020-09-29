@@ -6,18 +6,16 @@
       {{ destStation }}<span class="mr-3" />{{ selectedDate }}
     </div>
     <b-table :items="trains" :fields="fields">
-      <template slot="startTime" slot-scope="data"
+      <template v-slot:cell(startTime)="data"
         >{{ startStation }}<br />{{ data.item.startTime }}</template
       >
-      <template slot="destTime" slot-scope="data"
+      <template v-slot:cell(destTime)="data" 
         >{{ destStation }}<br />{{ data.item.destTime }}</template
       >
-      <template slot="special" slot-scope="data">
-        <b-button variant="primary" @click="handleAddSeat(data.item, 'special')"
-          >일정등록</b-button
-        >
+      <template v-slot:cell(special)="data"> 
+        <b-button variant="primary" @click="handleAddSeat(data.item, 'special')">일정등록</b-button>
       </template>
-      <template slot="normal" slot-scope="data">
+      <template v-slot:cell(normal)="data"> 
         <b-button variant="primary" @click="handleAddSeat(data.item, 'normal')"
           >일정등록</b-button
         >
